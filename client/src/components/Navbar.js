@@ -13,6 +13,15 @@ class Navbar extends Component {
 
   render() {
     const {isAuthenticated} = this.props.auth
+    let ingList = null
+    if(this.props.bucket.id) {
+      ingList = (
+      <li className="nav-item">
+        <Link className="nav-link" to="/bucketlist"><i className="fas fa-shopping-cart"></i>        
+        </Link>
+      </li>  
+      )
+    }
   
     const authLinks = (
       <ul className="navbar-nav ml-auto">  
@@ -23,10 +32,7 @@ class Navbar extends Component {
         <Link className="nav-link" to="/images"> Create Collection
         </Link>
       </li>  
-      <li className="nav-item">
-        <Link className="nav-link" to="/bucketlist"><i className="fas fa-shopping-cart"></i>        
-        </Link>
-      </li>        
+          {ingList}  
         <li className="nav-item">
           <a className="nav-link" href="/" onClick={this.onLogoutClick}>
             Logout
@@ -65,7 +71,8 @@ class Navbar extends Component {
 
 const mapStateToProps = state => {
   return {
-    auth: state.auth
+    auth: state.auth,
+    bucket: state.bucket
   }  
 }
 

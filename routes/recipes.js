@@ -41,7 +41,7 @@ router.get('/', passport.authenticate('jwt', {session: false}), (req, res) => {
 })
 
 //@route GET to api/recipes/:id
-//@description get all the recipes from db per username
+//@description get recipe per id from db 
 //@access Private
 router.get('/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
     const user = jwt_decode(req.headers.authorization)
@@ -50,6 +50,18 @@ router.get('/:id', passport.authenticate('jwt', {session: false}), (req, res) =>
     db('recipes').where({username, id})
     .then(recipe => res.json(recipe))
     .catch(err => res.status(400).json("Unable to fetch the recipe"))
+})
+
+//@route DELETE to api/recipes/:id
+//@description delete recipe per id from the database
+//@access Private
+router.delete('/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
+    const user = jwt_decode(req.headers.authorization)
+    const username = user.username
+    const id = req.params.id
+    db('recipes').del().where({username, id})
+    .then(response => res.json({success: true}))
+    .catch(err => res.status(400).json("Recipe not found"))
 })
 
 module.exports = router

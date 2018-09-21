@@ -1,5 +1,6 @@
 const initialState = {
-    ingredients: [],    
+    id: null, 
+    ingredients: [],  
     loading: false
 }
 
@@ -15,10 +16,17 @@ export default (state = initialState, action) => {
         ...state,
         ingredients: state.ingredients.filter(ingredient => ingredient !== action.payload)
         }
+        case 'REMOVE_BUCKET':
+        return {
+         ...state,
+         id: null,
+         ingredients: []
+        }
         case "SAVE_INGREDIENTS":
         return {
             ...state,
-        ingredients: action.payload
+        id: action.payload.id,
+        ingredients: action.payload.ingredients
         }
         default:
         return state

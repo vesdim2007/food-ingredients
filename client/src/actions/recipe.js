@@ -1,6 +1,13 @@
 import axios from 'axios'
 import {setErrors, clearErrors} from './auth'
 
+
+//SET_TEXT_FILTER
+export const setTextFilter = (text = '') => ({
+    type: 'SET_TEXT_FILTER',
+    text
+})
+
 //dispatching recipes
 export const setRecipes = (imageUrl, title, ingredients) => ({
     type: "ADD_RECIPE",
@@ -102,6 +109,26 @@ export const fetchRecipe = (id) => {
         .then(res => {
             const recipe = res.data[0]
             dispatch(getRecipeById(recipe))
+        })
+        .catch(err => {
+            dispatch(setErrors(err.response.data))        
+        })
+    }
+}
+
+//remove Recipe from the redux store
+export const removeRecipe = (id) => ({
+    type: 'REMOVE_RECIPE',
+    payload: id
+})
+
+//delete recipe by id from the database
+export const deleteRecipe = (id, history) => {
+    return (dispatch) => {
+        axios.delete(`/api/recipes/${id}`)
+        .then(res => {
+            dispatch(removeRecipe(id)) 
+            history.push('/images')           
         })
         .catch(err => {
             dispatch(setErrors(err.response.data))        

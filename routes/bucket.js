@@ -33,8 +33,42 @@ router.get('/', passport.authenticate('jwt', {session: false}), (req, res) => {
     const user = jwt_decode(req.headers.authorization)
     const username = user.username
     db('bucket').where({username})
-    .then(lists => res.json(lists[0]))
+    .then(lists => {        
+        res.json(lists[0])})
     .catch(err => res.status(400).json("Unable to fetch the bucketlist"))  
+})
+
+//@route PUT to api/bucket/:ingredient
+//@description updating the product list in the database
+//@access Private
+router.put('/:ingredient', passport.authenticate('jwt', {session: false}), (req, res) => {
+    const user = jwt_decode(req.headers.authorization)
+    const username = user.username
+    const ingredient = req.params.ingredient
+    db.select('ingredients')
+    .from('bucket')
+    .where({username})
+    .first()     
+    .then(lists => {             
+        const newProducts = lists.ingredients.filter(item => item !== ingredient)          
+        db('bucket').where({username}).update({
+            ingredients: newProducts            
+        })
+        .returning('*')  
+        .then(products => res.json(products[0]))                   
+    })         
+    .catch(err => res.status(400).json("Ingredient not found"))  
+})
+
+//@route DELETE to api/bucket/:id
+//@description deleting the product list in the database
+//@access Private
+router.delete('/:ingredient', passport.authenticate('jwt', {session: false}), (req, res) => {
+    const user = jwt_decode(req.headers.authorization)
+    const username = user.username       
+    db('bucket').del().where({username})    
+    .then(response => res.json({success: true}))           
+    .catch(err => res.status(400).json("BucketList not found"))  
 })
 
 module.exports = router
