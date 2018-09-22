@@ -5,8 +5,6 @@ import errorReducer from '../reducers/errorReducer'
 import recipeReducer from '../reducers/recipeReducer'
 import bucketReducer from '../reducers/bucketReducer'
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-
 export default () => {
     const store = createStore(
         combineReducers({
@@ -15,8 +13,7 @@ export default () => {
          bucket: bucketReducer,
          errors: errorReducer  
         }),
-        //applyMiddleware(thunk)
-    composeEnhancers(applyMiddleware(thunk))
+        applyMiddleware(thunk)  
     )
     return store
 }

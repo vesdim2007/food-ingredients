@@ -2,7 +2,9 @@ import React from 'react'
 
 export default () => {
   return (
-    <footer className="bg-dark text-white mt-5 p-4 text-center">
+    <footer 
+      className="text-white mt-5 p-4 text-center"
+      style={{backgroundColor: '#ff9900'}}>
      Copyright &copy; {new Date().getFullYear()} Recipes App
     </footer>  
   )

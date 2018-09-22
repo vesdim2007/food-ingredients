@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {logoutUser} from '../actions/auth'
+import logo from '../image/logo.png'
 
 
 class Navbar extends Component {
@@ -29,7 +30,7 @@ class Navbar extends Component {
         <Link className="nav-link" to="/recipes">Recipes</Link>
       </li>  
       <li className="nav-item">
-        <Link className="nav-link" to="/images"> Create Collection
+        <Link className="nav-link" to="/images">Create
         </Link>
       </li>  
           {ingList}  
@@ -44,18 +45,28 @@ class Navbar extends Component {
     const guestLinks = (
       <ul className="navbar-nav ml-auto">
         <li className="nav-item">
-          <Link className="nav-link" to="/register">Sign Up</Link>
+          <Link 
+            className="nav-link" 
+            style={{fontWeight: 'bold'}}
+            to="/register"
+          >Sign Up</Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to="/login">Login</Link>
+          <Link 
+            className="nav-link" 
+            style={{fontWeight: 'bold'}}
+            to="/login"
+          >Login</Link>
         </li>
       </ul>
     )
 
     return (
-        <nav className="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
+        <nav className="navbar navbar-expand-sm navbar-dark mb-4" 
+        style={{backgroundColor: '#ff9900', color: 'white'}}>
         <div className="container">
-          <Link className="navbar-brand" to="/">Home</Link>
+          <a className="navbar-brand" 
+          style={{width: '50px'}}><img src={logo} alt='food'/></a>          
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile-nav">
             <span className="navbar-toggler-icon"></span>
           </button>

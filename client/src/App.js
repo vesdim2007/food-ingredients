@@ -50,14 +50,14 @@ class App extends Component {
                 <Route exact path="/" component={Landing} />
                 <div className="container">
                   <Route exact path="/register" component={Register}/>
-                  <Route exact path="/login" component={Login}/>                  
+                  <Route exact path="/login" component={Login}/>                                  
                   <Switch>
                     <PrivateRoute exact path="/recipes" component={Recipes}/>
                     <PrivateRoute exact path="/recipes/:id" component={Recipe}/>
                     <PrivateRoute exact path="/images" component={ImageUpload}/>
                     <PrivateRoute exact path="/bucketlist" component={BucketList}/>                      
                   </Switch>
-                  <Route exact path="/not-found" component={NotFoundPage} />                
+                  <Route path="/home" component={NotFoundPage} />                               
                 </div>
               <Footer />
             </div>

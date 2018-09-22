@@ -72,7 +72,7 @@ class BucketList extends Component {
         {ingredients ? <button 
           type="button" 
           className="btn btn-danger" style={{marginTop: '20px'}}          
-          onClick={() => this.ondeleteBucket(this.props.bucket.id, 
+          onClick={() => this.onDeleteBucket(this.props.bucket.id, 
             this.props.history)}
           >DELETE BUCKET LIST</button>
         : null}

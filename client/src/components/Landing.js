@@ -19,9 +19,13 @@ class Landing extends Component {
               <div className="col-md-12 text-center">
                 <h1 className="display-3 mb-4">Recipes App
                 </h1>
-                <p className="lead"> Upload image or link to a delicious food and get the recipes with the ingredients.</p>
+                <p className="lead"> Upload image or input a link to your favourite food 
+                and let the app guess the ingredients.</p>
                 <hr />
-                <Link to="/register" className="btn btn-lg btn-info mr-2">Sign Up</Link>
+                <Link to="/register" 
+                className="btn btn-lg btn-info mr-2"
+                style={{backgroundColor: '#ffa31a'}}
+                >Sign Up</Link>
                 <Link to="/login" className="btn btn-lg btn-light">Login</Link>
               </div>
             </div>

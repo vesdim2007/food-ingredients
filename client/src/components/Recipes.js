@@ -3,14 +3,17 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {fetchRecipes, deleteRecipe, setTextFilter} from '../actions/recipe'
 import selectRecipes from './filters/selectRecipes'
+import Spinner from './Spinner/Spinner'
 
 class Recipes extends React.Component {
   state = {
-    recipes: null
+    recipes: null,
+    loading: true
   }
 
   componentDidMount() {
-    this.props.fetchRecipes()    
+    this.props.fetchRecipes()  
+    this.setState({loading: false})  
   }  
   
   onDelete = (id) => {
@@ -22,13 +25,16 @@ class Recipes extends React.Component {
   }
 
   render() {
-  const recipes = this.props.visibleRrecipes
+  const recipes = this.props.visibleRrecipes 
   
-    let collection = null
-    if(!recipes) {
-      collection = <h3>You do not have any collections yet. Try our service by going to Create Collection.</h3>
-    }
-    if(recipes) {
+  let collection = null
+  let fetchingRecipes
+
+  if(this.state.loading) {
+    return fetchingRecipes = <Spinner />
+  }
+
+  if(recipes.length > 0 && !this.state.loading) {      
       collection = recipes.map(recipe => {
         return (   
         <div className="col-sm-6 mb-2"  key={recipe.title}>     
@@ -60,15 +66,15 @@ class Recipes extends React.Component {
                   </div>
               </div>
             </div> 
-          </div> 
-         
+          </div>          
         )
       })      
-    }
+}
 
     return (
       <div className="container">
         <div className="row">
+        {fetchingRecipes}
           <div className="col-md-12">
             <div className="input-group" id="adv-search">
                 <input 
@@ -86,7 +92,11 @@ class Recipes extends React.Component {
             </div>
           </div>
         </div> 
-        <h1 className="mt-3">Your collection of recipes:</h1>
+          <h4 className="mt-3"><Link to="/images">Create new recipe
+          </Link>
+          </h4>     
+          { this.props.visibleRrecipes.length > 0
+          ? <h1 className="mt-3 mb-2">Your recipe collection:</h1> : null}          
         <div className="row">          
             {collection}          
         </div>
