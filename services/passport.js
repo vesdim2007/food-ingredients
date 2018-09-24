@@ -1,6 +1,6 @@
 const JwtStrategy = require('passport-jwt').Strategy
 const ExtractJwt = require('passport-jwt').ExtractJwt
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const db = require('../database/connection');
 const keys = require('../config/keys')
 

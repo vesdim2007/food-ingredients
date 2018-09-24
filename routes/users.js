@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
 const db = require('../database/connection')
@@ -22,31 +22,34 @@ router.post('/register', (req, res) => {
         return res.status(400).json(errors)
     }
 
-    const hash = bcrypt.hashSync(password, 10)
-    
-    db.transaction(trx => {
-        trx.insert({
-            hash: hash,
-            username: username,
-            joined: new Date()
-        })
-        .into('login')
-        .returning('username')
-        .then(username => {            
-            return trx('users')
-            .returning('*')
-            .insert({
-            username: username[0],
-            email: email   
-        })
-        .then(user => {
-            res.json(user[0])          
-        })                 
-        })
-        .then(trx.commit)
-        .catch(trx.rollback)
-    })
-    .catch(err => res.status(400).json("Username already exists"))   
+    bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(password, salt, (err, hash) => {
+            if(err) throw err
+            db.transaction(trx => {
+                trx.insert({
+                    hash: hash,
+                    username: username,
+                    joined: new Date()
+                })
+                .into('login')
+                .returning('username')
+                .then(username => {            
+                    return trx('users')
+                    .returning('*')
+                    .insert({
+                    username: username[0],
+                    email: email   
+                })
+                .then(user => {
+                    res.json(user[0])          
+                })                 
+                })
+                .then(trx.commit)
+                .catch(trx.rollback)
+            })
+            .catch(err => res.status(400).json("Username already exists"))             
+        }) 
+    })             
 })
 
 //@route POST to api/users/login
