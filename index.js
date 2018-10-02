@@ -12,7 +12,7 @@ const bucket = require('./routes/bucket')
 const app = express()
 
 //Middleware for body and cookie parsers
-app.use(cors())
+// app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
