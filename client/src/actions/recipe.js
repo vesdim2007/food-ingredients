@@ -37,7 +37,7 @@ export const addRecipe = (imageUrl, title) => {
         const concepts = response.outputs[0].data.concepts
         const ingredients = []
         concepts.forEach(concept => {
-            if(concept.value > 0.9) {
+            if(concept.value > 0.8) {
             ingredients.push(concept.name) 
             return ingredients
             }            
@@ -60,19 +60,17 @@ export const saveRecipe = (newRecipe, history) => {
     }    
 }
 
-//adding File to AWS and geting back url
-export const addFile = (file, title) => async dispatch => {    
-    const uploadConfig = await axios.get('/api/upload')   
-    // delete axios.defaults.headers.common["Authorization"]
-    await  fetch(uploadConfig.data.url, {
-        method: "put",
-        headers: {'Content-type': file.type},
-        body: file       
+//adding File to Azure and geting back url
+export const addFile = (file, title) => async dispatch => {  
+    const form = new FormData()
+    form.append('image', file)  
+    await axios.post('api/images', form)
+    .then(res => {
+        const imageUrl = res.data
+        dispatch(addRecipe(imageUrl, title)) 
     })
-  
-    const imageUrl = "https://s3.eu-west-2.amazonaws.com/my-blog-bucket-vesy/" + uploadConfig.data.key
-    dispatch(addRecipe(imageUrl, title))     
-} 
+    .catch(err => console.log(err))     
+}
 
 
 //set recipes in the redux store

@@ -12,7 +12,7 @@ const bucket = require('./routes/bucket')
 const app = express()
 
 //Middleware for body and cookie parsers
-// app.use(cors())
+app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
@@ -26,7 +26,7 @@ require('./services/passport')(passport)
 app.use('/api/users', users)
 app.use('/api/clarifai', clarifai)
 app.use('/api/recipes', recipes)
-app.use('/api/upload', images)
+app.use('/api/images', images)
 app.use('/api/bucket', bucket)
 
 // Serve static assets if in production env
